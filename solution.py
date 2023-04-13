@@ -1,12 +1,17 @@
 import pandas as pd
 import numpy as np
-import scipy.stats as stats
+from scipy.stats import ttest_1samp
 
 
 chat_id = 436734951 # Ваш chat ID, не меняйте название переменной
 
-def solution(x, y) -> bool: # Одна или две выборке на входе, заполняется исходя из условия
+def solution(data: np.array) -> bool: # Одна или две выборке на входе, заполняется исходя из условия
     # Измените код этой функции
     # Это будет вашим решением
     # Не меняйте название функции и её аргументы
-    return stats.ttest_ind(x, y)[1] < 0.02 # Ваш ответ, True или False
+    t_statistic, p_value = ttest_1samp(data, 300)
+    alpha = 0.02
+    if p_value/2 < alpha and t_statistic < 0:
+        return True # Отклоняем нулевую гипотезу
+    else:
+        return False # Не отклоняем нулевую гипотезу
